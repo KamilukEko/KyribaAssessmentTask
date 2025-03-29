@@ -18,4 +18,4 @@ class Header:
         if field_id != "01":
             raise ValueError("Id should be 01")
 
-        return Header(string[2:30], string[30:60], string[60:90], string[90:])
+        return Header(string[2:30].strip(), string[30:60].strip(), string[60:90].strip(), string[90:].strip())

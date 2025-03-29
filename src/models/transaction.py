@@ -21,6 +21,11 @@ class Transaction:
             raise ValueError("Id should be 02")
 
         try:
+            counter = int(string[2:8])
+        except ValueError:
+            raise ValueError("Invalid counter format")
+
+        try:
             amount = float(string[8:20]) / 100.0
         except ValueError:
             raise ValueError("Invalid amount format")
@@ -31,4 +36,4 @@ class Transaction:
             raise ValueError(f"Invalid currency")
 
 
-        return Transaction(int(string[2:8]), amount, currency)
+        return Transaction(counter, amount, currency)

@@ -21,10 +21,8 @@ footer_invalid_test_data = [
 
 @pytest.mark.parametrize("input_str, expected_footer", footer_valid_test_data)
 def test_footer_create_from_string_converts(input_str: str, expected_footer: Footer):
-    # Act
     result = Footer.create_from_string(input_str)
 
-    # Assert
     assert result.total_counter == expected_footer.total_counter
     assert result.control_sum == expected_footer.control_sum
     assert result.field_id == expected_footer.field_id
