@@ -24,7 +24,7 @@ class Footer:
 
         try:
             control_sum = Decimal(control_sum_str) / Decimal('100')
-        except ValueError:
+        except (InvalidOperation, ValueError):
             raise ValueError("Invalid amount format")
 
         return Footer(int(string[2:8]), control_sum)

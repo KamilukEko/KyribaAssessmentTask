@@ -1,5 +1,5 @@
 from .currency import Currency
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import Decimal, ROUND_HALF_UP, InvalidOperation
 
 
 class Transaction:
@@ -23,13 +23,23 @@ class Transaction:
             if field == 'amount':
                 if not isinstance(value, (str, Decimal)):
                     raise ValueError("Amount must be a string or Decimal")
-                self.amount = Decimal(value).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+                try:
+                    self.amount = Decimal(value).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+                except (InvalidOperation, ValueError):
+                    raise ValueError("Invalid literal for Decimal")
             elif field == 'currency':
                 if not isinstance(value, (str, Currency)):
                     raise ValueError("Currency must be a string or Currency enum")
-                self.currency = Currency(value) if isinstance(value, str) else value
+                self.currency = Transaction.get_currency(value)
 
         return self.amount - old_amount
+
+    @staticmethod
+    def get_currency(currency_str) -> Currency:
+        try:
+            return Currency(currency_str)
+        except ValueError:
+            raise ValueError(f"Invalid currency")
 
     @staticmethod
     def create_from_string(string) -> 'Transaction':
@@ -51,13 +61,9 @@ class Transaction:
 
         try:
             amount = Decimal(amount_str) / Decimal('100')
-        except ValueError:
+        except (InvalidOperation, ValueError):
             raise ValueError("Invalid amount format")
 
-        try:
-            currency = Currency(string[20:23])
-        except ValueError:
-            raise ValueError(f"Invalid currency")
-
+        currency = Transaction.get_currency(string[20:23])
 
         return Transaction(counter, amount, currency)

@@ -14,7 +14,7 @@ class File:
             if transaction.counter == counter:
                 amount_change = transaction.update(**kwargs)
                 if not amount_change:
-                    return False
+                    return True
                 self.footer.control_sum += amount_change
                 return True
         return False
