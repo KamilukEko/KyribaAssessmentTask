@@ -1,5 +1,7 @@
+from decimal import Decimal
+
 class Footer:
-    def __init__(self, total_counter: int, control_sum: float):
+    def __init__(self, total_counter: int, control_sum: Decimal):
         self.field_id = "03"
         self.total_counter = total_counter
         self.control_sum = control_sum
@@ -16,8 +18,12 @@ class Footer:
         if field_id != "03":
             raise ValueError("Id should be 03")
 
+        control_sum_str = string[8:20]
+        if not control_sum_str.isdigit():
+            raise ValueError("Invalid amount format")
+
         try:
-            control_sum = float(string[8:20]) / 100.0
+            control_sum = Decimal(control_sum_str) / Decimal('100')
         except ValueError:
             raise ValueError("Invalid amount format")
 

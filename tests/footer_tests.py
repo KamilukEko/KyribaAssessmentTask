@@ -1,14 +1,15 @@
 import pytest
 from src.models import Footer
+from decimal import Decimal
 
 footer_valid_test_data = [
     (
         "03" + "000002" + "000000123456" + " " * 100,
-        Footer(2, 1234.56)
+        Footer(2, Decimal('1234.56'))
     ),
     (
         "03" + "000100" + "000050000000" + " " * 100,
-        Footer(100, 500000.00)
+        Footer(100, Decimal('500000.00'))
     ),
 ]
 

@@ -1,7 +1,8 @@
 import pytest
 from unittest.mock import Mock, mock_open, patch, call
-from src.services.file_handler import FileHandler
+from src.services import FileHandler
 from src.models import Header, Transaction, Footer, File, Currency
+from decimal import Decimal
 
 @pytest.fixture
 def file_handler():
@@ -17,10 +18,10 @@ valid_files = [
     ], File(
         Header("Kamil", "Pracki", "Krzysztof", "Noworusynowska 161c"),
         [
-            Transaction(123, 123456.78, Currency.EUR),
-            Transaction(124, 1233452.78, Currency.PLN),
+            Transaction(123, Decimal('123456.78'), Currency.EUR),
+            Transaction(124, Decimal('1233452.78'), Currency.PLN),
         ],
-        Footer(2, 1356909.56)
+        Footer(2, Decimal('1356909.56'))
     ))
 ]
 invalid_files = [

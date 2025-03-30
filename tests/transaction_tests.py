@@ -1,15 +1,16 @@
 import pytest
 from src.models import Transaction
 from src.models.currency import Currency
+from decimal import Decimal
 
 transaction_valid_test_data = [
     (
         "02" + "000001" + "000000100000" + "USD" + " " * 97,
-        Transaction(1, 1000.00, Currency.USD)
+        Transaction(1, Decimal('1000.00'), Currency.USD)
     ),
     (
         "02" + "000123" + "000012345678" + "EUR" + " " * 97,
-        Transaction(123, 123456.78, Currency.EUR)
+        Transaction(123, Decimal('123456.78'), Currency.EUR)
     ),
 ]
 

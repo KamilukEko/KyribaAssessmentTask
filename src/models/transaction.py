@@ -1,8 +1,9 @@
 from .currency import Currency
+from decimal import Decimal
 
 
 class Transaction:
-    def __init__(self, counter: int, amount: float, currency: Currency):
+    def __init__(self, counter: int, amount: Decimal, currency: Currency):
         self.field_id = "02"
         self.counter = counter
         self.amount = amount
@@ -25,8 +26,12 @@ class Transaction:
         except ValueError:
             raise ValueError("Invalid counter format")
 
+        amount_str = string[8:20]
+        if not amount_str.isdigit():
+            raise ValueError("Invalid amount format")
+
         try:
-            amount = float(string[8:20]) / 100.0
+            amount = Decimal(amount_str) / Decimal('100')
         except ValueError:
             raise ValueError("Invalid amount format")
 
