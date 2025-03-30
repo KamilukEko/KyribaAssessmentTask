@@ -4,12 +4,12 @@ import sys
 from logging.handlers import RotatingFileHandler
 
 
-def setup_logging(log_level=logging.INFO):
+def setup_logging(use_console):
     if not os.path.exists('logs'):
         os.makedirs('logs')
 
     logger = logging.getLogger(__name__)
-    logger.setLevel(log_level)
+    logger.setLevel(logging.INFO)
 
     console_handler = logging.StreamHandler(sys.stdout)
     file_handler = RotatingFileHandler(
@@ -25,6 +25,8 @@ def setup_logging(log_level=logging.INFO):
     console_handler.setFormatter(formatter)
     file_handler.setFormatter(formatter)
 
-    logger.addHandler(console_handler)
+    if use_console:
+        logger.addHandler(console_handler)
+
     logger.addHandler(file_handler)
     return logger
